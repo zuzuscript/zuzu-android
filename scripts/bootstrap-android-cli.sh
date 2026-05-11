@@ -13,9 +13,12 @@ if [ ! -x "$SDKMANAGER" ]; then
 	exit 1
 fi
 
+"$SDKMANAGER" --sdk_root="$ANDROID_SDK_ROOT" --licenses
+
 "$SDKMANAGER" --sdk_root="$ANDROID_SDK_ROOT" \
 	"platform-tools" \
 	"platforms;android-35" \
+	"build-tools;34.0.0" \
 	"build-tools;35.0.0"
 
 echo "Android CLI prerequisites installed."

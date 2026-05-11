@@ -12,7 +12,7 @@ This is an MVP scaffold with:
 - a single-screen REPL UI (`Run` and `Clear`)
 - a hidden runtime `WebView`
 - an eval bridge (`ZuzuBridge`) from Kotlin to JS
-- runtime bundle sync script from `extras/zuzu-js`
+- runtime bundle sync script from `git_modules/zuzu-js`
 
 ## Build without Android Studio (CLI workflow)
 
@@ -25,6 +25,7 @@ Android Studio is optional.
 - Gradle 8.14+
 - Android command-line tools
 - Android SDK platform 35 and build-tools 35.0.0
+- Node.js and npm, for building the `zuzu-js` browser bundle
 
 Set environment variables:
 
@@ -36,7 +37,7 @@ export PATH="$ANDROID_SDK_ROOT/platform-tools:$PATH"
 Install required SDK packages:
 
 ```bash
-extras/zuzu-android/scripts/bootstrap-android-cli.sh
+make bootstrap
 ```
 
 ### 2) Sync the Zuzu browser runtime
@@ -44,33 +45,33 @@ extras/zuzu-android/scripts/bootstrap-android-cli.sh
 From repository root:
 
 ```bash
-extras/zuzu-android/scripts/sync-zuzu-browser-bundle.sh
+make sync-browser-bundle
 ```
 
 This copies:
 
-- `extras/zuzu-js/dist/zuzu-browser.js`
-- to `extras/zuzu-android/app/src/main/assets/zuzu-browser.js`
+- `git_modules/zuzu-js/dist/zuzu-browser.js`
+- to `app/src/main/assets/zuzu-browser.js`
 
 ### 3) Build debug APK
 
 ```bash
-extras/zuzu-android/scripts/build-debug-apk.sh
+make apk
 ```
 
 APK output:
 
-- `extras/zuzu-android/app/build/outputs/apk/debug/app-debug.apk`
+- `app/build/outputs/apk/debug/app-debug.apk`
 
 ### 4) Install on attached device/emulator
 
 ```bash
-adb install -r extras/zuzu-android/app/build/outputs/apk/debug/app-debug.apk
+make install
 ```
 
 ## Android Studio workflow (optional)
 
-1. Open `extras/zuzu-android/` in Android Studio.
+1. Open this repository in Android Studio.
 2. Let Gradle sync.
 3. Run app on emulator/device.
 
