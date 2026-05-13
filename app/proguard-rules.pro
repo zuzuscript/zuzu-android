@@ -1,1 +1,1 @@
-# Intentionally empty for the MVP.
+# Intentionally empty for the beta release build.

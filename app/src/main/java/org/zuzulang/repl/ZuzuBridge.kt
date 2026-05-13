@@ -1,4 +1,4 @@
-package org.zuzuscript.repl
+package org.zuzulang.repl
 
 import android.webkit.WebView
 import org.json.JSONObject
@@ -6,6 +6,14 @@ import org.json.JSONObject
 class ZuzuBridge(
 	private val webView: WebView
 ) {
+
+	fun checkReady( callback: ( Boolean ) -> Unit ) {
+		webView.evaluateJavascript(
+			"typeof window.zuzuAndroidRuntimeReady === 'function' && window.zuzuAndroidRuntimeReady();"
+		) { raw ->
+			callback( raw == "true" )
+		}
+	}
 
 	fun evaluate( code: String, callback: ( String ) -> Unit ) {
 		val jsArg = JSONObject.quote( code )

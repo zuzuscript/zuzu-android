@@ -1,0 +1,18 @@
+<resources>
+	<color name="z_accent">#8A9EFF</color>
+	<color name="z_mist">#F8F7FC</color>
+	<color name="z_slate_900">#0F172A</color>
+	<color name="z_slate_800">#1F2937</color>
+	<color name="z_slate_700">#334155</color>
+	<color name="z_slate_600">#475569</color>
+	<color name="z_slate_200">#E2E8F0</color>
+	<color name="z_slate_100">#F1F5F9</color>
+	<color name="z_panel">#FFFFFF</color>
+	<color name="z_code_text">#F8FAFC</color>
+	<color name="z_code_keyword">#FFCC66</color>
+	<color name="z_code_string">#95E6CB</color>
+	<color name="z_code_number">#F29E74</color>
+	<color name="z_code_comment">#718096</color>
+	<color name="z_code_operator">#89DDFF</color>
+	<color name="z_code_punctuation">#C3A6FF</color>
+</resources>

@@ -3,12 +3,23 @@ plugins {
 	kotlin("android")
 }
 
+val releaseKeystorePath = providers.environmentVariable("ZUZU_ANDROID_KEYSTORE").orNull
+val releaseKeystorePassword =
+	providers.environmentVariable("ZUZU_ANDROID_KEYSTORE_PASSWORD").orNull
+val releaseKeyAlias = providers.environmentVariable("ZUZU_ANDROID_KEY_ALIAS").orNull
+val releaseKeyPassword =
+	providers.environmentVariable("ZUZU_ANDROID_KEY_PASSWORD").orNull ?: releaseKeystorePassword
+val hasReleaseSigning = !releaseKeystorePath.isNullOrBlank() &&
+	!releaseKeystorePassword.isNullOrBlank() &&
+	!releaseKeyAlias.isNullOrBlank() &&
+	!releaseKeyPassword.isNullOrBlank()
+
 android {
-	namespace = "org.zuzuscript.repl"
+	namespace = "org.zuzulang.repl"
 	compileSdk = 35
 
 	defaultConfig {
-		applicationId = "org.zuzuscript.repl"
+		applicationId = "org.zuzulang.repl"
 		minSdk = 26
 		targetSdk = 35
 		versionCode = 1
@@ -18,8 +29,22 @@ android {
 			"androidx.test.runner.AndroidJUnitRunner"
 	}
 
+	signingConfigs {
+		if (hasReleaseSigning) {
+			create("release") {
+				storeFile = rootProject.file(releaseKeystorePath!!)
+				storePassword = releaseKeystorePassword
+				keyAlias = releaseKeyAlias
+				keyPassword = releaseKeyPassword
+			}
+		}
+	}
+
 	buildTypes {
 		release {
+			signingConfig = signingConfigs.getByName(
+				if (hasReleaseSigning) "release" else "debug"
+			)
 			isMinifyEnabled = false
 			proguardFiles(
 				getDefaultProguardFile(

@@ -1,6 +1,6 @@
 # ZuzuScript Android REPL
 
-This repository contains an Android REPL prototype for ZuzuScript. The app
+This repository contains a beta-quality Android REPL for ZuzuScript. The app
 uses the JavaScript implementation by loading the `zuzu-js` browser bundle
 inside a local hidden WebView.
 
@@ -19,7 +19,7 @@ and keep the submodule change intentional.
 
 ## Project Shape
 
-- `app/src/main/java/org/zuzuscript/repl/` contains the Kotlin app code.
+- `app/src/main/java/org/zuzulang/repl/` contains the Kotlin app code.
 - `app/src/main/assets/index.html` hosts the runtime WebView.
 - `app/src/main/assets/zuzu-runtime-bridge.js` bridges Kotlin and JS.
 - `app/src/main/assets/zuzu-browser.js` is the synced browser bundle.
@@ -37,19 +37,39 @@ Use the Makefile targets rather than duplicating build logic:
 make bootstrap
 make sync-browser-bundle
 make apk
+make aab
 make install
 ```
 
 `ANDROID_SDK_ROOT` must be set before Android build or install targets run.
-`make apk` initializes submodules, installs `zuzu-js` Node dependencies when
-needed, builds the browser bundle, syncs it into Android assets, and builds
-the debug APK.
+`make apk` and `make aab` initialize submodules, install `zuzu-js` Node
+dependencies when needed, build the browser bundle, sync it into Android
+assets, and build the release package.
 
-The debug APK is written to:
+The release APK is written to:
 
 ```text
-app/build/outputs/apk/debug/app-debug.apk
+app/build/outputs/apk/release/app-release.apk
 ```
+
+The release Android App Bundle is written to:
+
+```text
+app/build/outputs/bundle/release/app-release.aab
+```
+
+The release variant is signed with Android's local debug signing config for
+beta sideloading unless release signing environment variables are set:
+
+```text
+ZUZU_ANDROID_KEYSTORE
+ZUZU_ANDROID_KEYSTORE_PASSWORD
+ZUZU_ANDROID_KEY_ALIAS
+ZUZU_ANDROID_KEY_PASSWORD
+```
+
+Do not commit keystores or signing secrets. `ZUZU_ANDROID_KEY_PASSWORD` may
+be omitted when it is the same as the keystore password.
 
 ## Runtime Bundle Rules
 
@@ -76,5 +96,5 @@ code changed, do not regenerate or modify the bundle.
   paths.
 - Keep documentation and paths in this split-repository layout, not older
   monorepo `extras/` paths.
-- The current app is an MVP scaffold; keep changes narrow unless the task
-  explicitly asks for broader product work.
+- The current app is beta-quality software; keep changes narrow and preserve
+  the REPL workflow unless the task explicitly asks for broader product work.

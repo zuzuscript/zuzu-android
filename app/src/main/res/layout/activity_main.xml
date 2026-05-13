@@ -2,51 +2,97 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
+	android:background="@color/z_mist"
 	android:orientation="vertical"
-	android:padding="16dp">
-
-	<EditText
-		android:id="@+id/input_code"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:hint="Enter Zuzu code"
-		android:inputType="textMultiLine"
-		android:maxLines="6"
-		android:minLines="3" />
+	android:padding="12dp">
 
 	<LinearLayout
 		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:layout_marginTop="8dp"
-		android:orientation="horizontal">
+		android:layout_height="0dp"
+		android:layout_weight="1"
+		android:background="@drawable/panel_background"
+		android:orientation="vertical">
 
-		<Button
-			android:id="@+id/run_button"
-			android:layout_width="0dp"
+		<TextView
+			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:layout_weight="1"
-			android:text="Run" />
+			android:text="Script"
+			android:textColor="@color/z_slate_800"
+			android:textSize="16sp"
+			android:textStyle="bold" />
 
-		<Button
-			android:id="@+id/clear_button"
-			android:layout_width="0dp"
-			android:layout_height="wrap_content"
-			android:layout_marginStart="8dp"
+		<EditText
+			android:id="@+id/input_code"
+			android:layout_width="match_parent"
+			android:layout_height="0dp"
+			android:layout_marginTop="8dp"
 			android:layout_weight="1"
-			android:text="Clear" />
+			android:background="@drawable/editor_background"
+			android:fontFamily="monospace"
+			android:gravity="top|start"
+			android:hint="Enter ZuzuScript"
+			android:inputType="textMultiLine|textVisiblePassword|textNoSuggestions"
+			android:minLines="8"
+			android:overScrollMode="always"
+			android:padding="14dp"
+			android:scrollbars="vertical"
+			android:textColor="@color/z_code_text"
+			android:textColorHint="@color/z_slate_600"
+			android:textCursorDrawable="@null"
+			android:textSize="14sp"
+			android:typeface="monospace" />
 	</LinearLayout>
 
-	<TextView
-		android:id="@+id/output_text"
+	<Button
+		android:id="@+id/run_button"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginTop="12dp"
+		android:background="@drawable/run_button_background"
+		android:minHeight="48dp"
+		android:text="Run Script"
+		android:textAllCaps="false"
+		android:textColor="@color/z_slate_900"
+		android:textStyle="bold" />
+
+	<LinearLayout
 		android:layout_width="match_parent"
 		android:layout_height="0dp"
-		android:layout_marginTop="8dp"
+		android:layout_marginTop="12dp"
 		android:layout_weight="1"
-		android:background="#111111"
-		android:padding="12dp"
-		android:textColor="#F0F0F0"
-		android:textIsSelectable="true"
-		android:typeface="monospace" />
+		android:background="@drawable/panel_background"
+		android:orientation="vertical">
+
+		<TextView
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:text="Output"
+			android:textColor="@color/z_slate_800"
+			android:textSize="16sp"
+			android:textStyle="bold" />
+
+		<ScrollView
+			android:id="@+id/output_scroll"
+			android:layout_width="match_parent"
+			android:layout_height="0dp"
+			android:layout_marginTop="8dp"
+			android:layout_weight="1"
+			android:background="@drawable/editor_background"
+			android:fillViewport="true"
+			android:overScrollMode="always"
+			android:padding="14dp">
+
+			<TextView
+				android:id="@+id/output_text"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:fontFamily="monospace"
+				android:textColor="@color/z_slate_200"
+				android:textIsSelectable="true"
+				android:textSize="14sp"
+				android:typeface="monospace" />
+		</ScrollView>
+	</LinearLayout>
 
 	<WebView
 		android:id="@+id/runtime_webview"

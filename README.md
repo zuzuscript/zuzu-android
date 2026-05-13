@@ -1,18 +1,21 @@
 # zuzu-android
 
-`zuzu-android` is an Android app prototype for running a Zuzu REPL.
+`zuzu-android` is a beta-quality Android app for running a ZuzuScript REPL.
 
 It uses a local `WebView` that hosts the `zuzu-js` browser bundle and
 bridges evaluations from Kotlin to JavaScript.
 
 ## Current status
 
-This is an MVP scaffold with:
+This is beta software with:
 
-- a single-screen REPL UI (`Run` and `Clear`)
+- a single-screen REPL UI with a multiline monospace editor and scrollable
+  output
+- syntax highlighting and simple block indentation in the editor
 - a hidden runtime `WebView`
-- an eval bridge (`ZuzuBridge`) from Kotlin to JS
+- a script execution bridge (`ZuzuBridge`) from Kotlin to JS
 - runtime bundle sync script from `git_modules/zuzu-js`
+- Android app icon assets for launcher and adaptive icons
 
 ## Build without Android Studio (CLI workflow)
 
@@ -53,7 +56,7 @@ This copies:
 - `git_modules/zuzu-js/dist/zuzu-browser.js`
 - to `app/src/main/assets/zuzu-browser.js`
 
-### 3) Build debug APK
+### 3) Build release package
 
 ```bash
 make apk
@@ -61,7 +64,33 @@ make apk
 
 APK output:
 
-- `app/build/outputs/apk/debug/app-debug.apk`
+- `app/build/outputs/apk/release/app-release.apk`
+
+For Google Play Console uploads, build the Android App Bundle:
+
+```bash
+make aab
+```
+
+AAB output:
+
+- `app/build/outputs/bundle/release/app-release.aab`
+
+By default the CLI release build uses Android's local debug signing key so
+that the beta APK can be installed directly on a test device.
+
+To sign with a private release keystore, set these environment variables
+before running `make apk` or `make aab`:
+
+```bash
+export ZUZU_ANDROID_KEYSTORE="/path/to/release.jks"
+export ZUZU_ANDROID_KEYSTORE_PASSWORD="..."
+export ZUZU_ANDROID_KEY_ALIAS="..."
+export ZUZU_ANDROID_KEY_PASSWORD="..."
+```
+
+If the key password is the same as the keystore password, you can omit
+`ZUZU_ANDROID_KEY_PASSWORD`.
 
 ### 4) Install on attached device/emulator
 
@@ -83,12 +112,12 @@ Try expression:
 5 mod 2
 ```
 
-If the runtime bundle is not synced, the app runs in stub mode and
-returns a notice in output.
+If the runtime bundle is not synced or cannot load, the app reports runtime
+diagnostics in the output area.
 
 ## Next steps
 
 - Persist REPL history with Room or DataStore.
-- Add multiline editor affordances and command recall.
+- Add command recall.
 - Stream stdout and structured errors from runtime.
 - Add instrumentation smoke tests and CI tasks.

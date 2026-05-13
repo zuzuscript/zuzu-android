@@ -7,9 +7,10 @@ SHELL := $(CURDIR)/scripts/make-env-shell.sh
 ZUZU_JS_DIR := git_modules/zuzu-js
 ZUZU_JS_INSTALL_STAMP := $(ZUZU_JS_DIR)/node_modules/.make-install-stamp
 ZUZU_BROWSER_BUNDLE := $(ZUZU_JS_DIR)/dist/zuzu-browser.js
-APK := app/build/outputs/apk/debug/app-debug.apk
+APK := app/build/outputs/apk/release/app-release.apk
+AAB := app/build/outputs/bundle/release/app-release.aab
 
-.PHONY: all apk bootstrap browser-bundle check-android help install js-deps submodules sync-browser-bundle
+.PHONY: aab all apk bootstrap browser-bundle check-android help install js-deps submodules sync-browser-bundle
 
 all: apk
 
@@ -17,8 +18,9 @@ help:
 	@printf '%s\n' \
 		'Targets:' \
 		'  make bootstrap            Install Android SDK packages via sdkmanager' \
-		'  make apk                  Build the Zuzu browser bundle and debug APK' \
-		'  make install              Build and install the debug APK with adb' \
+		'  make apk                  Build the Zuzu browser bundle and release APK' \
+		'  make aab                  Build the Zuzu browser bundle and release AAB' \
+		'  make install              Build and install the release APK with adb' \
 		'  make submodules           Initialise git submodules' \
 		'  make browser-bundle       Build git_modules/zuzu-js/dist/zuzu-browser.js' \
 		'  make sync-browser-bundle  Copy the browser bundle into Android assets'
@@ -51,7 +53,10 @@ sync-browser-bundle: $(ZUZU_BROWSER_BUNDLE)
 	scripts/sync-zuzu-browser-bundle.sh
 
 apk: check-android submodules sync-browser-bundle
-	scripts/build-debug-apk.sh
+	scripts/build-release-apk.sh
+
+aab: check-android submodules sync-browser-bundle
+	scripts/build-release-bundle.sh
 
 install: apk
 	@if [ ! -x "$${ANDROID_SDK_ROOT}/platform-tools/adb" ]; then \

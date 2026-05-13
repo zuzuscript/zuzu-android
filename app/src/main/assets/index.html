@@ -4,6 +4,38 @@
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 	<title>Zuzu Runtime Host</title>
+	<script>
+		window.__zuzuAndroidLoadErrors = [];
+		window.__zuzuAndroidRecordError = function ( label, value ) {
+			window.__zuzuAndroidLoadErrors.push(
+				label + ': ' + (
+					value && value.stack
+						? value.stack
+						: value && value.message
+							? value.message
+							: String( value )
+				)
+			);
+		};
+		window.addEventListener( 'error', function ( event ) {
+			var details = [
+				event && event.message ? event.message : String( event ),
+				event && event.filename ? event.filename : '',
+				event && event.lineno ? event.lineno : '',
+				event && event.colno ? event.colno : ''
+			].filter( Boolean ).join( ' ' );
+			window.__zuzuAndroidRecordError(
+				'window.error',
+				event && event.error ? event.error : details
+			);
+		} );
+		window.addEventListener( 'unhandledrejection', function ( event ) {
+			window.__zuzuAndroidRecordError(
+				'unhandledrejection',
+				event && event.reason ? event.reason : event
+			);
+		} );
+	</script>
 	<script src="zuzu-browser.js"></script>
 	<script src="zuzu-runtime-bridge.js"></script>
 </head>
