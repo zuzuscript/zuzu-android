@@ -1,3 +1,4 @@
 [submodule "git_modules/zuzu-js"]
 	path = git_modules/zuzu-js
 	url = git@github.com:zuzuscript/zuzu-js.git
+	branch = main
