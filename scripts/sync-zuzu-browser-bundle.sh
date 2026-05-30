@@ -7,7 +7,7 @@ TARGET="$ROOT_DIR/app/src/main/assets/zuzu-browser.js"
 
 if [ ! -f "$SOURCE" ]; then
 	echo "Source bundle not found: $SOURCE" >&2
-	echo "Build it via git_modules/zuzu-js/bin/build-browser-bundle" >&2
+	echo "Build it via git_modules/zuzu-js/bin/zuzu-build-browser-bundle" >&2
 	exit 1
 fi
 

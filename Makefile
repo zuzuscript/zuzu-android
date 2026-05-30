@@ -45,7 +45,7 @@ $(ZUZU_JS_INSTALL_STAMP): $(ZUZU_JS_DIR)/package.json $(ZUZU_JS_DIR)/package-loc
 js-deps: $(ZUZU_JS_INSTALL_STAMP)
 
 $(ZUZU_BROWSER_BUNDLE): $(ZUZU_JS_INSTALL_STAMP)
-	cd $(ZUZU_JS_DIR) && bin/build-browser-bundle
+	cd $(ZUZU_JS_DIR) && bin/zuzu-build-browser-bundle
 
 browser-bundle: $(ZUZU_BROWSER_BUNDLE)
 
